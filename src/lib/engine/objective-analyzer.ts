@@ -118,7 +118,7 @@ export function analyzeObjective(rawText: string): ObjectiveAnalysis {
   for (const rule of RULES) {
     for (const keyword of rule.keywords) {
       if (text.includes(normalize(keyword))) {
-        scores.set(rule.domain, (scores.get(rule.domain) ?? 0) + keyword.length > 0 ? (scores.get(rule.domain) ?? 0) + 1 : 1);
+        scores.set(rule.domain, (scores.get(rule.domain) ?? 0) + 1);
       }
     }
   }
