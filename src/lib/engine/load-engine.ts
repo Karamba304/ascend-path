@@ -73,7 +73,7 @@ export function buildLoadBudget(input: {
   availableMinutes: number;
   dailyMinutes: number;
   history: MissionHistoryEntry[];
-  usedToday?: TodayUsage;
+  usedToday?: TodayUsage | undefined;
 }): LoadBudget {
   const recent = recentLoad(input.history, input.dailyMinutes);
   const reference = dailyReferenceLoad(input.availableMinutes);
