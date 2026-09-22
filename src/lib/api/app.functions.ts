@@ -297,6 +297,7 @@ export const completeMission = createServerFn({ method: "POST" })
       .select("*")
       .eq("id", userId)
       .single();
+    if (!profileBefore) throw new Error("Profil introuvable");
 
     if (existingResult && existingResult.final_status === "done") {
       // On autorise seulement l'ajout du feedback manquant.
@@ -827,9 +828,9 @@ export const updateSettings = createServerFn({ method: "POST" })
         .eq("id", userId)
         .maybeSingle();
       const merged = { ...((current?.settings ?? {}) as object), ...(data.settings ?? {}) };
-      const update: { username?: string; settings?: object } = { settings: merged };
+      const update: Record<string, unknown> = { settings: merged };
       if (data.username) update.username = data.username;
-      await db.from("profiles").update(update).eq("id", userId);
+      await db.from("profiles").update(update as never).eq("id", userId);
     }
 
     if (data.dailyMinutes || data.availableDays) {
@@ -925,7 +926,8 @@ async function buildReplacement(
     .from("objectives")
     .select("*")
     .eq("id", mission.objective_id)
-    .single();
+    .maybeSingle();
+  if (!objective) return null;
 
   const doneMinutes = await minutesDoneToday(db, objective.id, mission.date);
   const remaining = Math.max(0, (objective.daily_time ?? 30) - doneMinutes);
@@ -1000,7 +1002,8 @@ async function advanceChallenges(db: Db, userId: string): Promise<void> {
           .from("profiles")
           .select("total_xp, app_level")
           .eq("id", userId)
-          .single();
+          .maybeSingle();
+        if (!profile) continue;
         const totalXp = profile.total_xp + grant;
         await db
           .from("profiles")
