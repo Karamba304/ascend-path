@@ -829,7 +829,7 @@ export const updateSettings = createServerFn({ method: "POST" })
         .maybeSingle();
       const merged = { ...((current?.settings ?? {}) as object), ...(data.settings ?? {}) };
       const update: Record<string, unknown> = { settings: merged };
-      if (data.username) update.username = data.username;
+      if (data.username) update["username"] = data.username;
       await db.from("profiles").update(update as never).eq("id", userId);
     }
 
