@@ -11,8 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as HistoriqueRouteImport } from './routes/historique'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as ProgressionRouteImport } from './routes/progression'
 import { Route as TodayRouteImport } from './routes/today'
+import { Route as MissionMissionIdRouteImport } from './routes/mission.$missionId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -24,9 +27,19 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HistoriqueRoute = HistoriqueRouteImport.update({
+  id: '/historique',
+  path: '/historique',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OnboardingRoute = OnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgressionRoute = ProgressionRouteImport.update({
+  id: '/progression',
+  path: '/progression',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TodayRoute = TodayRouteImport.update({
@@ -34,39 +47,78 @@ const TodayRoute = TodayRouteImport.update({
   path: '/today',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MissionMissionIdRoute = MissionMissionIdRouteImport.update({
+  id: '/mission/$missionId',
+  path: '/mission/$missionId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/historique': typeof HistoriqueRoute
   '/onboarding': typeof OnboardingRoute
+  '/progression': typeof ProgressionRoute
   '/today': typeof TodayRoute
+  '/mission/$missionId': typeof MissionMissionIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/historique': typeof HistoriqueRoute
   '/onboarding': typeof OnboardingRoute
+  '/progression': typeof ProgressionRoute
   '/today': typeof TodayRoute
+  '/mission/$missionId': typeof MissionMissionIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/historique': typeof HistoriqueRoute
   '/onboarding': typeof OnboardingRoute
+  '/progression': typeof ProgressionRoute
   '/today': typeof TodayRoute
+  '/mission/$missionId': typeof MissionMissionIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/onboarding' | '/today'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/historique'
+    | '/onboarding'
+    | '/progression'
+    | '/today'
+    | '/mission/$missionId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/onboarding' | '/today'
-  id: '__root__' | '/' | '/auth' | '/onboarding' | '/today'
+  to:
+    | '/'
+    | '/auth'
+    | '/historique'
+    | '/onboarding'
+    | '/progression'
+    | '/today'
+    | '/mission/$missionId'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/historique'
+    | '/onboarding'
+    | '/progression'
+    | '/today'
+    | '/mission/$missionId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRoute: typeof AuthRoute
+  HistoriqueRoute: typeof HistoriqueRoute
   OnboardingRoute: typeof OnboardingRoute
+  ProgressionRoute: typeof ProgressionRoute
   TodayRoute: typeof TodayRoute
+  MissionMissionIdRoute: typeof MissionMissionIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -85,11 +137,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/historique': {
+      id: '/historique'
+      path: '/historique'
+      fullPath: '/historique'
+      preLoaderRoute: typeof HistoriqueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/onboarding': {
       id: '/onboarding'
       path: '/onboarding'
       fullPath: '/onboarding'
       preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/progression': {
+      id: '/progression'
+      path: '/progression'
+      fullPath: '/progression'
+      preLoaderRoute: typeof ProgressionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/today': {
@@ -99,14 +165,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TodayRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mission/$missionId': {
+      id: '/mission/$missionId'
+      path: '/mission/$missionId'
+      fullPath: '/mission/$missionId'
+      preLoaderRoute: typeof MissionMissionIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRoute: AuthRoute,
+  HistoriqueRoute: HistoriqueRoute,
   OnboardingRoute: OnboardingRoute,
+  ProgressionRoute: ProgressionRoute,
   TodayRoute: TodayRoute,
+  MissionMissionIdRoute: MissionMissionIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
